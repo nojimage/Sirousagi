@@ -1,0 +1,49 @@
+<?php
+/**
+ * Setting File
+ * 
+ * PHP versions 5
+ * 
+ * Copyright 2009, nojimage (http://php-tips.com/)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @version    0.1
+ * @author     nojimage <nojimage at gmail.com>
+ * @copyright  2009 nojimage
+ * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @link       http://php-tips.com/
+ * @package    sirousagi
+ * @subpackage sirousagi.core
+ * @since      File available since Release 0.1
+ * @modifiedby nojimage <nojimage at gmail.com>
+ */
+
+/**
+ * Debug flag
+ * @var int 0:product 1:debug
+ */
+define('DEBUG', 0);
+
+/**
+ * 設定
+ */
+class BOT_CONFIG 
+{
+    static $irc = array(
+        'default' => array(
+            'server' => 'localhost',
+            'port' => 6667,
+            'encoding' => 'UTF-8',
+            'nickname' => 'sirousagi'));
+    
+    static $bot = array(
+        'name' => 'sirousagi',
+        'callnames' => '/sirousagi/',
+        'logdir' => 'logs/',
+        'timer' => 30000,
+        'admin' => '/nojimage/',
+        'autoJoin' => array('channels' => array('#hoge')));
+    
+}

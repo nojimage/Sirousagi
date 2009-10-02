@@ -1,0 +1,54 @@
+<?php
+/**
+ * Basic Functions
+ *
+ * PHP versions 5
+ *
+ * Copyright 2009, nojimage (http://php-tips.com/)
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @version    0.1
+ * @author     nojimage <nojimage at gmail.com>
+ * @copyright  2009 nojimage
+ * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
+ * @link       http://php-tips.com/
+ * @package    sirousagi
+ * @subpackage sirousagi.core
+ * @since      File available since Release 0.1
+ * @modifiedby nojimage <nojimage at gmail.com>
+ *
+ */
+if (!defined('DEBUG')) {
+    /**
+     * Debug flag
+     * @var int 0:product 1:debug
+     */
+    define('DEBUG', 0);
+}
+
+/**
+ * Debug Print
+ *
+ * @param $var
+ */
+function debug($var) {
+
+    if (!DEBUG) { return; }
+
+    $trace = debug_backtrace();
+    echo 'DEBUG IN ' . $trace[0]['file'] . ' (' . $trace[0]['line'] . ')' . "\n";
+    print_r($var);
+    echo "\n";
+}
+
+/**
+ * return same value
+ *
+ * @param $var
+ * @return mixed
+ */
+function ref($var) {
+    return $var;
+}
