@@ -9,7 +9,7 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @version    0.1
+ * @version    0.2
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -138,7 +138,12 @@ class BotSirousagi
     {
         debug('Connect to: ' . $this->irc_config['server']);
         $this->irc->connect($this->irc_config['server'], $this->irc_config['port']);
-        $this->irc->login($this->config['name'], 'Sirousagi - IRC bot. ver' . SIROUSAGI_VERSION );
+        $this->irc->login(
+            $this->config['name'],
+            'Sirousagi - IRC bot. ver' . SIROUSAGI_VERSION,
+            8,
+            null,
+            !empty($this->irc_config['password']) ? $this->irc_config['password'] : null);
         $this->irc->listen();
         return $this;
     }

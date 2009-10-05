@@ -36,7 +36,8 @@ class BOT_CONFIG
             'server' => 'localhost',
             'port' => 6667,
             'encoding' => 'UTF-8',
-            'nickname' => 'sirousagi'));
+            'nickname' => 'sirousagi',
+            'password' => null));
     
     static $bot = array(
         'name' => 'sirousagi',
@@ -44,6 +45,12 @@ class BOT_CONFIG
         'logdir' => 'logs/',
         'timer' => 30000,
         'admin' => '/nojimage/',
-        'autoJoin' => array('channels' => array('#hoge')));
+        'autoJoin' => array('channels' => array('#hoge', '#secret' => 'key')),,
+        'checkUser' => array('timer' => 60),
+        'log'       => array(),
+        'log_mail'  => array(),
+        'naruting'  => array(),
+        'sayHello'  => array(),
+        'saytime'   => array());
     
 }

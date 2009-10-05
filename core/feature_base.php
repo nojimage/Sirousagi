@@ -36,6 +36,12 @@ class FeatureBase
     public $discliption = 'example feature.';
 
     /**
+     * この機能を有効化するか
+     * @var bool
+     */
+    public $active = true;
+    
+    /**
      * 機能をハンドリングするポイントタイプ
      * @var int
      */
@@ -68,7 +74,7 @@ class FeatureBase
 
     /**
      * 設定配列
-     * @var unknown_type
+     * @var array
      */
     protected $config;
 
@@ -79,6 +85,11 @@ class FeatureBase
     function __construct($config = null)
     {
         $this->config = $config;
+        
+        if (!empty($config[$this->name])) {
+            // FIXME: クラス変数を上書き
+        }
+        
     }
 
     /**
@@ -100,7 +111,6 @@ class FeatureBase
      */
     function checkAdmin(&$irc, &$data)
     {
-
         if (preg_match($this->config['admin'], $data->from)) {
             return true;
         } else {

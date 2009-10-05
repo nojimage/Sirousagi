@@ -1,15 +1,15 @@
 <?php
 /**
  * サーバへのConnect時に設定されたチャンネルへ自動的にログインします
- * 
+ *
  * PHP versions 5
- * 
+ *
  * Copyright 2009, nojimage (http://php-tips.com/)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- * 
- * @version    0.1
+ *
+ * @version    0.2
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -77,11 +77,20 @@ class AutoJoinFeature extends FeatureBase
         if (is_object($data)) {
             // call from command
             if (!empty($this->config['autoJoin']['channels'])) {
-                $irc->join($this->config['autoJoin']['channels']);
-                $irc->mode($this->config['autoJoin']['channels'], '+snt');
+
+                foreach ($this->config['autoJoin']['channels'] as $channel => $channelkey)
+                {
+                    if (is_int($channel)) {
+                        $channel = $channelkey;
+                        $channelkey = null;
+                    }
+                    $irc->join($channel, $channelkey);
+                    $irc->mode($channel, '+snt');
+                    debug('auto join channel: ' . $channel);
+                }
+
             }
-            
-            debug('auto join channel: ' . join(', ', $this->config['autoJoin']['channels']));
+
 
         } else {
             // call from timer
