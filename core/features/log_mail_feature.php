@@ -2,15 +2,15 @@
 /**
  * ログをメールで送信
  * FIXME: is feature not work
- * 
+ *
  * PHP versions 5
- * 
+ *
  * Copyright 2009, nojimage (http://php-tips.com/)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- * 
- * @version    0.1
+ *
+ * @version    0.2
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -19,9 +19,11 @@
  * @subpackage sirousagi.core
  * @since      File available since Release 0.1
  * @modifiedby nojimage <nojimage at gmail.com>
- * 
+ *
  */
 require_once('log_feature.php');
+require_once('Mail.php');
+require_once('Mail/mime.php');
 
 class LogMailFeature extends FeatureBase
 {
@@ -30,7 +32,7 @@ class LogMailFeature extends FeatureBase
      * 機能名
      * @var string
      */
-    public $name = 'logMail';
+    public $name = 'LogMail';
 
     /**
      * 機能の説明
@@ -81,11 +83,13 @@ class LogMailFeature extends FeatureBase
         if (is_object($data)) {
             // call from command
             if ($this->checkAdmin($irc, $data)) {
+                $this->_sendLogMail($irc->getAddress(), $data->channel);
                 $irc->message(SMARTIRC_TYPE_NOTICE, $data->channel, 'メールを送ったよー'); // FIXME: i18n
             }
         } else if (date('H') == '00') {
             // call from timer
             foreach ($irc->channel as $channel => $val) {
+                $this->_sendLogMail($irc->getAddress(), $channel);
                 $irc->message(SMARTIRC_TYPE_NOTICE, $channel, 'メールを送ったよー'); // FIXME: i18n
             }
         }
@@ -94,12 +98,31 @@ class LogMailFeature extends FeatureBase
 
     /**
      * メールを送信
-     * @param $data Net_SmartIRC_data
+     * @param $server  string
+     * @param $channel string
      * @return boolean
      */
-    function _sendLogMail($data) {
+    function _sendLogMail($server, $channel) {
+        
         // -- 取得するログを決定
-        $filename = $this->config['logdir'] . LogFeature::makeLogFileName($data->channel, strtotime('-1 day'));
-        // -- TODO: PEAR::Mailでatachment, send
+        $filename = $this->config['logdir'] . LogFeature::makeLogFileName($server, $channel, strtotime('-1 day'));
+        
+        // -- PEAR::Mailでatachment, send
+        mb_internal_encoding('UTF-8');
+        $mailer = Mail::factory($this->config['LogMail']['service']); // FIXME: smtp対応
+        $headers = array('To' => $this->config['LogMail']['to'], 'From' => $this->config['LogMail']['to'], 'Subject' => 'IRC log (' . $server . ' ' . $channel . ')');
+        $mime = new Mail_mime();
+        if (is_file($filename)) {
+            $mime->setTXTBody( $server . ' ' . $channel . ' log.');
+            $mime->addAttachment($filename, 'application/octet-stream');
+        } else {
+            $mime->setTXTBody( $server . ' ' . $channel . ' logfile not found.');
+        }
+        $param = array('head_charset' => 'UTF-8', 'text_charset' => 'UTF-8');
+        
+        $body = $mime->get($param);
+        $headers = $mime->headers($headers);
+        
+        $mailer->send($this->config['LogMail']['to'], $headers, $body);
     }
 }

@@ -1,15 +1,15 @@
 <?php
 /**
  * ロギング
- * 
+ *
  * PHP versions 5
- * 
+ *
  * Copyright 2009, nojimage (http://php-tips.com/)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- * 
- * @version    0.1
+ *
+ * @version    0.3
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -18,7 +18,7 @@
  * @subpackage sirousagi.core
  * @since      File available since Release 0.1
  * @modifiedby nojimage <nojimage at gmail.com>
- * 
+ *
  */
 class LogFeature extends FeatureBase
 {
@@ -27,7 +27,7 @@ class LogFeature extends FeatureBase
      * 機能名
      * @var string
      */
-    public $name = 'log';
+    public $name = 'Log';
 
     /**
      * 機能の説明
@@ -92,7 +92,7 @@ class LogFeature extends FeatureBase
             // call from command
 
             // ログファイル名の設定
-            $filename = $this->config['logdir'] . self::makeLogFileName($data->channel);
+            $filename = $this->config['logdir'] . self::makeLogFileName($irc->getAddress(), $data->channel);
 
             // ファイルポインタが無ければ取得
             if ( empty($this->_logfp[$data->channel]) || !is_resource($this->_logfp[$data->channel]) ) {
@@ -126,13 +126,18 @@ class LogFeature extends FeatureBase
 
     /**
      * ログファイル名を取得
-     * @param $channel チャンネル名
-     * @param $time　タイムスタンプ
-     * @return string ファイル名
+     * @param $server  string
+     * @param $channel string
+     * @param $time　int
+     * @return string
      */
-    static function makeLogFileName($channel = '__sirousagi', $time = null)
+    static function makeLogFileName($server = '', $channel = '__sirousagi', $time = null)
     {
 
+        if (empty($server)) {
+            $server = 'unknown';
+        }
+        
         if (empty($channel)) {
             $channel = '__sirousagi';
         }
@@ -140,7 +145,7 @@ class LogFeature extends FeatureBase
         if (empty($time)) {
             $time = time();
         }
-        return preg_replace('/[#&%]/', '', $channel) . '-' . date('Ymd', $time) . '.log';
+        return $server . '-' . preg_replace('/[#&%]/', '', $channel) . '-' . date('Ymd', $time) . '.log';
     }
 
 }

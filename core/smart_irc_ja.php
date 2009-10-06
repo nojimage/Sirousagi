@@ -4,7 +4,7 @@
  *
  * PHP versions 5
  *
- * @version    0.1
+ * @version    0.3
  * @author     nojimage <nojimage at gmail.com>
  * @link       http://php-tips.com/
  * @package    sirousagi
@@ -72,6 +72,16 @@ class Net_SmartIRC_Ja extends Net_SmartIRC
 
     }
 
+    
+    /**
+     * 
+     * @return string
+     */
+    function getAddress()
+    {
+        return $this->_address;
+    }
+    
     /**
      * (non-PHPdoc)
      * @see extlibs/Pear/Net/Net_SmartIRC_base#_rawsend($data)

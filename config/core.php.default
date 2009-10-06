@@ -45,12 +45,12 @@ class BOT_CONFIG
         'logdir' => 'logs/',
         'timer' => 30000,
         'admin' => '/nojimage/',
-        'autoJoin' => array('channels' => array('#hoge', '#secret' => 'key')),,
-        'checkUser' => array('timer' => 60),
-        'log'       => array(),
-        'log_mail'  => array(),
-        'naruting'  => array(),
-        'sayHello'  => array(),
-        'saytime'   => array());
+        'AutoJoin' => array('channels' => array('#hoge', '#secret' => 'key')),,
+        'CheckUser' => array('timer' => 60),
+        'Log'       => array(),
+        'LogMail'   => array('to' => 'to@example.com', 'service' => 'mail'),
+        'Naruting'  => array(),
+        'SayHello'  => array(),
+        'SayTime'   => array());
     
 }

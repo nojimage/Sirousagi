@@ -20,7 +20,7 @@
  * @modifiedby nojimage <nojimage at gmail.com>
  *
  * TODO: JOIN,PART,QUITもロギングする
- * TODO: ログのメール送信機能を作る
+ * TODO: ログのメール送信機能を作る(smtp) 対応
  * TODO: 伝言機能
  * TODO: 自動応答メッセージ
  * TODO: RSSリーダー
@@ -204,13 +204,14 @@ class BotSirousagi
 
         // -- load features
         foreach ($features as $name => $file) {
-            $className = $name . 'Feature';
+            $featureName = camelize($name);
+            $className = $featureName . 'Feature';
             if (class_exists($className)) {
-                $this->features[$name] = new $className($this->config);
+                $this->features[$featureName] = new $className($this->config);
                 // if Feature::timer > 0 hook timer action
-                if ($this->features[$name]->timer > 0) {
-                    debug('Hook Timer: ' . $name);
-                    $this->irc->registerTimehandler($this->features[$name]->timer * 1000, $this->features[$name], 'run');
+                if ($this->features[$featureName]->timer > 0) {
+                    debug('Hook Timer: ' . $featureName);
+                    $this->irc->registerTimehandler($this->features[$featureName]->timer * 1000, $this->features[$featureName], 'run');
                 }
             }
         }
@@ -252,18 +253,18 @@ class BotSirousagi
 
         foreach ($this->features as $name => $feature) {
             if ($feature->type & $type) {
-                // TODO: 呼び出し条件の見直し
                 if ($feature->allowNoCall && preg_match($feature->callRegex, $data->message)) {
-                    // マッチする
+                    // allowNoCall=true かつ callRegexのみの呼び出し
                     debug('called 1: ' . $name);
                     $feature->run($this->irc, $data);
 
                 } else if (preg_match($this->config['callnames'], $data->message) && preg_match($feature->callRegex, $data->message)) {
-                    // マッチする
+                    // 名前呼び出し かつ callRegexにマッチ
                     debug('called 2: ' . $name);
                     $feature->run($this->irc, $data);
 
-                } else if ($feature->allowCallCommand && preg_match($this->config['callnames'], $data->message) && preg_match('/!' . $feature->name . '( |$)/i', $data->message)) {
+                } else if ($feature->allowCallCommand && preg_match($this->config['callnames'], $data->message) && preg_match('/!(?:' . $feature->name . '|' . underscore($feature->name) . ')(?: |$)/i', $data->message)) {
+                    // コマンド名呼び出し (allowCallCommand=true) && callnames にマッチ　&& !クラス名
                     debug('called 3: ' . $name);
                     $feature->run($this->irc, $data);
                 }

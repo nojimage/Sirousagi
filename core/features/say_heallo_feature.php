@@ -1,15 +1,15 @@
 <?php
 /**
- * サーバへのConnect時に設定されたチャンネルへ自動的にログインします
- *
+ * JOINメッセージが発生した場合のメッセージ
+ * 
  * PHP versions 5
- *
+ * 
  * Copyright 2009, nojimage (http://php-tips.com/)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
- * @version    0.2
+ * 
+ * @version    0.3
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -18,28 +18,29 @@
  * @subpackage sirousagi.core
  * @since      File available since Release 0.1
  * @modifiedby nojimage <nojimage at gmail.com>
+ * 
  */
-class AutoJoinFeature extends FeatureBase
+class SayHelloFeature extends FeatureBase
 {
 
     /**
      * 機能名
      * @var string
      */
-    public $name = 'AutoJoin';
+    public $name = 'SayHello';
 
     /**
      * 機能の説明
      * helpコマンドで呼び出した場合に表示される
      * @var string
      */
-    public $discliption = 'サーバへのConnect時に設定されたチャンネルへ自動的にログインします。';
+    public $discliption = 'JOINメッセージが発生した場合にメッセージを返します。';
 
     /**
      * 機能をハンドリングするポイントタイプ
-     * @var unknown_type
+     * @var int
      */
-    public $type = SMARTIRC_TYPE_LOGIN;
+    public $type = SMARTIRC_TYPE_JOIN;
 
     /**
      * 実行間隔(s)
@@ -61,8 +62,14 @@ class AutoJoinFeature extends FeatureBase
     public $allowCallCommand = false;
 
     /**
+     * 名前マッチなしでも呼び出し可能か
+     * @var boolean
+     */
+    public $allowNoCall = true;
+
+    /**
      * 設定配列
-     * @var unknown_type
+     * @var array
      */
     protected $config;
 
@@ -71,26 +78,17 @@ class AutoJoinFeature extends FeatureBase
      * @param $irc Net_SmartIRC_Ja
      * @param $data Net_SmartIRC_data
      */
-    public function run(&$irc, &$data = null) {
+    public function run(&$irc, &$data = null)
+    {
 
         $channels = array();
         if (is_object($data)) {
             // call from command
-            if (!empty($this->config['autoJoin']['channels'])) {
-
-                foreach ($this->config['autoJoin']['channels'] as $channel => $channelkey)
-                {
-                    if (is_int($channel)) {
-                        $channel = $channelkey;
-                        $channelkey = null;
-                    }
-                    $irc->join($channel, $channelkey);
-                    $irc->mode($channel, '+snt');
-                    debug('auto join channel: ' . $channel);
-                }
-
+            $nick = '';
+            if ($data->nick != $irc->_nick) {
+                $nick = sptintf('%sさん、', $data->nick); // TODO: i18n
             }
-
+            $irc->message(SMARTIRC_TYPE_NOTICE, $data->channel, $nick . 'こんにちはー'); // TODO: i18n
 
         } else {
             // call from timer

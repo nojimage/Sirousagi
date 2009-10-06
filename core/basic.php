@@ -9,7 +9,7 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @version    0.1
+ * @version    0.3
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -33,7 +33,8 @@ if (!defined('DEBUG')) {
  *
  * @param $var
  */
-function debug($var) {
+function debug($var)
+{
 
     if (!DEBUG) { return; }
 
@@ -49,6 +50,30 @@ function debug($var) {
  * @param $var
  * @return mixed
  */
-function ref($var) {
+function ref($var)
+{
     return $var;
+}
+
+/**
+ * Camelize
+ *
+ *
+ * @param $string
+ * @return string
+ */
+function camelize($string)
+{
+    return str_replace(" ", "", ucwords(str_replace("_", " ", $string)));
+}
+
+/**
+ * underscore
+ * 
+ * @param $string
+ * @return string
+ */
+function underscore($string)
+{
+    return strtolower(preg_replace('/(?<=\\w)([A-Z])/', '_\\1', $string));
 }
