@@ -4,7 +4,7 @@
  *
  * PHP versions 5
  *
- * @version    0.3
+ * @version    Sirousagi 0.4
  * @author     nojimage <nojimage at gmail.com>
  * @link       http://php-tips.com/
  * @package    sirousagi
@@ -80,6 +80,15 @@ class Net_SmartIRC_Ja extends Net_SmartIRC
     function getAddress()
     {
         return $this->_address;
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    function getActionHandler()
+    {
+        return $this->_actionhandler;
     }
     
     /**

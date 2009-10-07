@@ -9,7 +9,7 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  * 
- * @version    0.3
+ * @version    Sirousagi 0.4
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -34,7 +34,7 @@ class SaytimeFeature extends FeatureBase
      * helpコマンドで呼び出した場合に表示される
      * @var string
      */
-    public $discliption = '現在の時刻をお知らせします。';
+    public $description = '現在の時刻をお知らせします。';
 
     /**
      * 機能をハンドリングするポイントタイプ

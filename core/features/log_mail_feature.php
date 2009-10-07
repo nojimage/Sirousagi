@@ -1,4 +1,7 @@
 <?php
+require_once('log_feature.php');
+require_once('Mail.php');
+require_once('Mail/mime.php');
 /**
  * ログをメールで送信
  * FIXME: is feature not work
@@ -10,7 +13,7 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @version    0.2
+ * @version    Sirousagi 0.4
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -21,10 +24,6 @@
  * @modifiedby nojimage <nojimage at gmail.com>
  *
  */
-require_once('log_feature.php');
-require_once('Mail.php');
-require_once('Mail/mime.php');
-
 class LogMailFeature extends FeatureBase
 {
 
@@ -39,7 +38,7 @@ class LogMailFeature extends FeatureBase
      * helpコマンドで呼び出した場合に表示される
      * @var string
      */
-    public $discliption = 'あらかじめ設定されたメールアドレスへログを送信します';
+    public $description = 'あらかじめ設定されたメールアドレスへログを送信します';
 
     /**
      * 機能をハンドリングするポイントタイプ

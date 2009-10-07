@@ -1,6 +1,6 @@
 <?php
 /**
- * JOINメッセージが発生した場合のメッセージ
+ * バージョン情報の表示
  * 
  * PHP versions 5
  * 
@@ -9,38 +9,38 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  * 
- * @version    0.3
+ * @version    Sirousagi 0.4
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link       http://php-tips.com/
  * @package    sirousagi
  * @subpackage sirousagi.core
- * @since      File available since Release 0.1
+ * @since      File available since Release 0.3.1
  * @modifiedby nojimage <nojimage at gmail.com>
  * 
  */
-class SayHelloFeature extends FeatureBase
+class VersionFeature extends FeatureBase
 {
 
     /**
      * 機能名
      * @var string
      */
-    public $name = 'SayHello';
+    public $name = 'Version';
 
     /**
      * 機能の説明
      * helpコマンドで呼び出した場合に表示される
      * @var string
      */
-    public $discliption = 'JOINメッセージが発生した場合にメッセージを返します。';
+    public $description = 'バージョン情報を表示します。';
 
     /**
      * 機能をハンドリングするポイントタイプ
      * @var int
      */
-    public $type = SMARTIRC_TYPE_JOIN;
+    public $type = SMARTIRC_TYPE_CHANNEL;
 
     /**
      * 実行間隔(s)
@@ -53,19 +53,13 @@ class SayHelloFeature extends FeatureBase
      * 呼び出すためのメッセージマッチ
      * @var stirng
      */
-    public $callRegex = '/^.+$/';
+    public $callRegex = '/^$/';
 
     /**
      * !$name形式でのコマンド実行を許可するか
      * @var boolean
      */
-    public $allowCallCommand = false;
-
-    /**
-     * 名前マッチなしでも呼び出し可能か
-     * @var boolean
-     */
-    public $allowNoCall = true;
+    public $allowCallCommand = true;
 
     /**
      * 設定配列
@@ -81,16 +75,11 @@ class SayHelloFeature extends FeatureBase
     public function run(&$irc, &$data = null)
     {
 
-        $channels = array();
         if (is_object($data)) {
             // call from command
-            $nick = '';
-            if ($data->nick != $irc->_nick) {
-                $nick = sptintf('%sさん、', $data->nick); // TODO: i18n
-            }
-            $irc->message(SMARTIRC_TYPE_NOTICE, $data->channel, $nick . 'こんにちはー'); // TODO: i18n
-
-        } else {
+            $irc->message(SMARTIRC_TYPE_NOTICE, $data->channel, BotSirousagi::getVersion() . ' (c) nojimage. <http://php-tips.com/>');
+            
+        } else if (false) {
             // call from timer
         }
 

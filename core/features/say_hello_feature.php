@@ -1,6 +1,6 @@
 <?php
 /**
- * BOTの終了
+ * JOINメッセージが発生した場合のメッセージ
  * 
  * PHP versions 5
  * 
@@ -20,27 +20,27 @@
  * @modifiedby nojimage <nojimage at gmail.com>
  * 
  */
-class QuitFeature extends FeatureBase
+class SayHelloFeature extends FeatureBase
 {
 
     /**
      * 機能名
      * @var string
      */
-    public $name = 'Quit';
+    public $name = 'SayHello';
 
     /**
      * 機能の説明
      * helpコマンドで呼び出した場合に表示される
      * @var string
      */
-    public $description = 'BOTを終了します。';
+    public $description = 'JOINメッセージが発生した場合にメッセージを返します。';
 
     /**
      * 機能をハンドリングするポイントタイプ
      * @var int
      */
-    public $type = SMARTIRC_TYPE_CHANNEL;
+    public $type = SMARTIRC_TYPE_JOIN;
 
     /**
      * 実行間隔(s)
@@ -53,13 +53,19 @@ class QuitFeature extends FeatureBase
      * 呼び出すためのメッセージマッチ
      * @var stirng
      */
-    public $callRegex = '/^$/';
+    public $callRegex = '/^.+$/';
 
     /**
      * !$name形式でのコマンド実行を許可するか
      * @var boolean
      */
-    public $allowCallCommand = true;
+    public $allowCallCommand = false;
+
+    /**
+     * 名前マッチなしでも呼び出し可能か
+     * @var boolean
+     */
+    public $allowNoCall = true;
 
     /**
      * 設定配列
@@ -75,12 +81,16 @@ class QuitFeature extends FeatureBase
     public function run(&$irc, &$data = null)
     {
 
+        $channels = array();
         if (is_object($data)) {
             // call from command
-            if ($this->checkAdmin($irc, $data)) {
-                $irc->quit('ばいばいー'); // TODO: i18
+            $nick = '';
+            if ($data->nick != $irc->_nick) {
+                $nick = sptintf('%sさん、', $data->nick); // TODO: i18n
             }
-        } else if (false) {
+            $irc->message(SMARTIRC_TYPE_NOTICE, $data->channel, $nick . 'こんにちはー'); // TODO: i18n
+
+        } else {
             // call from timer
         }
 

@@ -9,7 +9,7 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @version    0.2
+ * @version    Sirousagi 0.4
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -33,7 +33,7 @@ class AutoJoinFeature extends FeatureBase
      * helpコマンドで呼び出した場合に表示される
      * @var string
      */
-    public $discliption = 'サーバへのConnect時に設定されたチャンネルへ自動的にログインします。';
+    public $description = 'サーバへのConnect時に設定されたチャンネルへ自動的にログインします。';
 
     /**
      * 機能をハンドリングするポイントタイプ

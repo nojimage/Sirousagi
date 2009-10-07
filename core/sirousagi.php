@@ -1,4 +1,5 @@
 <?php
+include_once('lib.php');
 /**
  * IRC BOT sirousagi
  *
@@ -9,7 +10,7 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  *
- * @version    0.2
+ * @version    Sirousagi 0.4
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -26,17 +27,6 @@
  * TODO: RSSリーダー
  * TODO: i18n
  *
- */
-include_once('lib.php');
-
-/**
- *
- * @var string
- */
-define('SIROUSAGI_VERSION', '0.1');
-
-/**
- * IRC BOT Sirousagi
  */
 class BotSirousagi
 {
@@ -140,7 +130,7 @@ class BotSirousagi
         $this->irc->connect($this->irc_config['server'], $this->irc_config['port']);
         $this->irc->login(
             $this->config['name'],
-            'Sirousagi - IRC bot. ver' . SIROUSAGI_VERSION,
+            self::getVersion(),
             8,
             null,
             !empty($this->irc_config['password']) ? $this->irc_config['password'] : null);
@@ -381,4 +371,27 @@ class BotSirousagi
         $this->__callFeature($data, SMARTIRC_TYPE_NOTICE);
     }
 
+    /**
+     * バージョン情報の取得
+     * 
+     * @return string
+     */
+    static function getVersion()
+    {
+        $ref = new ReflectionClass(__CLASS__);
+        $version = 'unknown';
+        if (preg_match('/@version[\s]+(.+)[\s]*(?:\n|$)/', $ref->getDocComment(), $matches)) {
+            $version = $matches[1];
+        }
+        return $version;
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function getFeatures()
+    {
+        return $this->features;
+    } 
 }

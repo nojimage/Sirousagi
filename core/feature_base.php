@@ -1,15 +1,15 @@
 <?php
 /**
  * Bot Feature Base class
- * 
+ *
  * PHP versions 5
- * 
+ *
  * Copyright 2009, nojimage (http://php-tips.com/)
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- * 
- * @version    0.3
+ *
+ * @version    Sirousagi 0.4
  * @author     nojimage <nojimage at gmail.com>
  * @copyright  2009 nojimage
  * @license    http://www.opensource.org/licenses/mit-license.php The MIT License
@@ -33,14 +33,14 @@ class FeatureBase
      * helpコマンドで呼び出した場合に表示される
      * @var string
      */
-    public $discliption = 'example feature.';
+    public $description = 'example feature.';
 
     /**
      * この機能を有効化するか
      * @var bool
      */
     public $active = true;
-    
+
     /**
      * 機能をハンドリングするポイントタイプ
      * @var int
@@ -85,11 +85,11 @@ class FeatureBase
     function __construct($config = null)
     {
         $this->config = $config;
-        
+
         if (!empty($config[$this->name])) {
             // FIXME: クラス変数を上書き
         }
-        
+
     }
 
     /**
@@ -119,5 +119,19 @@ class FeatureBase
         }
     }
 
+    /**
+     * バージョン情報の取得
+     *
+     * @return string
+     */
+    public function getVersion($classname = null)
+    {
+        $ref = new ReflectionClass(get_class($this));
+        $version = 'unknown';
+        if (preg_match('/@version[\s]+(.+)[\s]*(?:\n|$)/', $ref->getDocComment(), $matches)) {
+            $version = $matches[1];
+        }
+        return $version;
+    }
 
 }
