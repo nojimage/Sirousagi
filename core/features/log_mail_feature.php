@@ -109,7 +109,7 @@ class LogMailFeature extends FeatureBase
         // -- PEAR::Mailでatachment, send
         mb_internal_encoding('UTF-8');
         $mailer = Mail::factory($this->config['LogMail']['service']); // FIXME: smtp対応
-        $headers = array('To' => $this->config['LogMail']['to'], 'From' => $this->config['LogMail']['to'], 'Subject' => 'IRC log (' . $server . ' ' . $channel . ')');
+        $headers = array('To' => $this->config['LogMail']['to'], 'From' => $this->config['LogMail']['from'], 'Subject' => 'IRC log (' . $server . ' ' . $channel . ')');
         $mime = new Mail_mime();
         if (is_file($filename)) {
             $mime->setTXTBody( $server . ' ' . $channel . ' log.');

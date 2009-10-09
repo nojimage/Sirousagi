@@ -48,7 +48,7 @@ class BOT_CONFIG
         'AutoJoin' => array('channels' => array('#hoge', '#secret' => 'key')),,
         'CheckUser' => array('timer' => 60),
         'Log'       => array(),
-        'LogMail'   => array('to' => 'to@example.com', 'service' => 'mail'),
+        'LogMail'   => array('to' => 'to@example.com', 'from' => 'from@exmaple.com', 'service' => 'mail'),
         'Naruting'  => array(),
         'SayHello'  => array(),
         'SayTime'   => array());
