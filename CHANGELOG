@@ -1,0 +1,31 @@
+commit 3ae6af45b6ed228bdd42094c2ff150edfe75b2ba
+Author: nojimage <nojimage@gmail.com>
+Date:   Wed Oct 7 18:18:33 2009 +0900
+
+    version 0.4
+    add version and help feature.
+
+commit 8de5b3ef759f8c9fe53fc7501d2c2c91567ee3c6
+Author: nojimage <nojimage@gmail.com>
+Date:   Tue Oct 6 11:02:06 2009 +0900
+
+    version 0.3
+
+commit f661298d64a5ea0e87e0e4e1b53f09a7a6eafc2d
+Author: nojimage <nojimage@gmail.com>
+Date:   Mon Oct 5 22:16:32 2009 +0900
+
+    version 0.2
+    パスワード対応
+
+commit f5de8b76729d1ff71865d57aa2e0963787f0f263
+Author: nojimage <nojimage@gmail.com>
+Date:   Sat Oct 3 05:30:49 2009 +0900
+
+    version 0.1
+
+commit 3b7c335781dfd39164826616047977258f56b4e9
+Author: nojimage <nojimage@gmail.com>
+Date:   Sat Oct 3 05:28:46 2009 +0900
+
+    first commit
