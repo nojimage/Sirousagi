@@ -86,7 +86,7 @@ class SayHelloFeature extends FeatureBase
             // call from command
             $nick = '';
             if ($data->nick != $irc->_nick) {
-                $nick = sptintf('%sさん、', $data->nick); // TODO: i18n
+                $nick = sprintf('%sさん、', $data->nick); // TODO: i18n
             }
             $irc->message(SMARTIRC_TYPE_NOTICE, $data->channel, $nick . 'こんにちはー'); // TODO: i18n
 
