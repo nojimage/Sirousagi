@@ -85,7 +85,7 @@ class LogMailFeature extends FeatureBase
                 $this->_sendLogMail($irc->getAddress(), $data->channel);
                 $irc->message(SMARTIRC_TYPE_NOTICE, $data->channel, 'メールを送ったよー'); // FIXME: i18n
             }
-        } else if (date('H') == '00') {
+        } else if (date('H') + 0 == 0) {
             // call from timer
             foreach ($irc->channel as $channel => $val) {
                 $this->_sendLogMail($irc->getAddress(), $channel);

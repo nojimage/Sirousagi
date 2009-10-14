@@ -87,7 +87,12 @@ class FeatureBase
         $this->config = $config;
 
         if (!empty($config[$this->name])) {
-            // FIXME: クラス変数を上書き
+            // クラス変数を上書き
+            foreach ( get_object_vars($this) as $var => $value) {
+                if (array_key_exists($var, $config[$this->name])) {
+                    $this->$var = $config[$this->name][$var];
+                }
+            }
         }
 
     }
