@@ -20,6 +20,8 @@
  * @modifiedby nojimage <nojimage at gmail.com>
  */
 chdir(dirname(__FILE__));
+error_reporting(error_reporting() & ~E_DEPRECATED);
+
 require_once('core/sirousagi.php');
 
 define('PID_FILE', 'bot.pid');
